@@ -1,0 +1,1339 @@
+/* =========================================================
+   真平台語電子書・拔河搶答大賽
+   色彩風格：溫潤莫蘭迪／柔和粉彩（護眼不刺眼、高易讀性）
+   字體：justfont 開放粉圓體 (jf-openhuninn)
+   ========================================================= */
+
+@font-face {
+  font-family: "jf-openhuninn";
+  src: local("jf-openhuninn-2.1"),
+       local("jf-openhuninn-2.0"),
+       local("jf-openhuninn-1.1"),
+       local("jf-openhuninn"),
+       local("OpenHuninn"),
+       local("粉圓"),
+       url("https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@master/font/jf-openhuninn-2.0.ttf") format("truetype"),
+       url("https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@1.1/font/jf-openhuninn-1.1.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-huninn: "jf-openhuninn", "jf-openhuninn-2.0", "jf-openhuninn-1.1", "OpenHuninn", "粉圓", "Varela Round", "Nunito", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  /* 柔和基底色（燕麥奶白、溫潤紙張感） */
+  --bg-main: #f5f2ea;
+  --bg-card: #fcfaf5;
+  --bg-muted: #ede8dc;
+  --border-soft: #dfd8c8;
+
+  /* 溫和深可可灰文字，避免純黑刺眼對比 */
+  --text-primary: #3f3a34;
+  --text-secondary: #6e665c;
+  --text-muted: #93897d;
+
+  /* 左隊：柔和珊瑚粉／乾燥玫瑰色 (Chhun-hong) */
+  --left-primary: #c97a6b;
+  --left-dark: #a3584a;
+  --left-bg: #f7eae6;
+  --left-border: #e5c3bc;
+  --left-hover: #f0dad4;
+
+  /* 右隊：柔和鼠尾草綠／霧面青瓷色 (Luán-iông) */
+  --right-primary: #68948e;
+  --right-dark: #4a736d;
+  --right-bg: #e6f0ee;
+  --right-border: #bcd6d2;
+  --right-hover: #d6e7e4;
+
+  /* 重點與狀態色（暖芥末黃、柔和抹茶綠、溫和磚紅） */
+  --accent-warm: #d49b54;
+  --accent-warm-bg: #faefd9;
+  --success-soft: #6b9e78;
+  --success-bg: #e6f2e9;
+  --danger-soft: #c77267;
+  --danger-bg: #f9e8e6;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-soft: 0 6px 20px rgba(74, 65, 53, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-huninn);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==================== 頂部導覽列 ==================== */
+.app-header {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(74, 65, 53, 0.04);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  background-color: var(--accent-warm-bg);
+  color: #9e6b2b;
+  border: 1px solid #e6cfa7;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.brand h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.brand h1 small {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-left: 6px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==================== 通用按鈕 ==================== */
+button,
+a.btn-outline {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-outline {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-muted);
+}
+
+.btn-secondary {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+  border: 1px solid var(--right-border);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background-color: var(--right-hover);
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--right-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.btn-text:hover {
+  background-color: var(--right-bg);
+}
+
+/* ==================== 主容器与設定畫面 ==================== */
+.app-main {
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 18px 20px;
+}
+
+.setup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: 20px;
+}
+
+@media (max-width: 980px) {
+  .setup-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border-soft);
+}
+
+.step-pill {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+  border: 1px solid var(--right-border);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.card-header h2 {
+  font-size: 1.15rem;
+  color: var(--text-primary);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill-btn {
+  flex: 1;
+  min-width: 82px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.pill-btn:hover {
+  background-color: var(--bg-muted);
+}
+
+.pill-btn.active {
+  background-color: var(--right-primary);
+  color: #ffffff;
+  border-color: var(--right-primary);
+  box-shadow: 0 2px 8px rgba(104, 148, 142, 0.25);
+}
+
+.book-title-banner {
+  margin-top: 10px;
+  padding: 9px 14px;
+  background-color: var(--accent-warm-bg);
+  border: 1px solid #ead5b0;
+  border-radius: var(--radius-sm);
+  color: #7d5622;
+  font-size: 0.92rem;
+}
+
+.scope-mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.scope-tab {
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.scope-tab.active {
+  background-color: var(--left-bg);
+  color: var(--left-dark);
+  border-color: var(--left-primary);
+}
+
+.lesson-list-container {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.lesson-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.lesson-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.lesson-item:hover {
+  background-color: #f7f3e8;
+}
+
+.lesson-item.selected {
+  border-color: var(--right-primary);
+  background-color: var(--right-bg);
+}
+
+.lesson-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.94rem;
+}
+
+.lesson-item-words-preview {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* 選項顯示模式單選卡片 */
+.radio-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--bg-main);
+  cursor: pointer;
+}
+
+.radio-card input[type="radio"] {
+  margin-top: 4px;
+  accent-color: var(--right-primary);
+}
+
+.radio-card.active {
+  background-color: var(--right-bg);
+  border-color: var(--right-primary);
+}
+
+.radio-title {
+  font-weight: 700;
+  font-size: 0.93rem;
+  color: var(--text-primary);
+}
+
+.radio-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.form-row-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.soft-select,
+.team-input-box input,
+.add-word-form input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  font-family: inherit;
+}
+
+.team-names-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.team-input-box {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.team-left-box {
+  background-color: var(--left-bg);
+  border: 1px solid var(--left-border);
+}
+
+.team-right-box {
+  background-color: var(--right-bg);
+  border: 1px solid var(--right-border);
+}
+
+.team-input-box label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.team-input-box input {
+  background-color: var(--bg-card);
+  font-weight: 600;
+}
+
+.btn-start-game {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, #749f99 0%, #5b8781 100%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(91, 135, 129, 0.25);
+}
+
+.btn-start-game:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+/* ==================== 遊戲主畫面 ==================== */
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.game-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scope-badge {
+  background-color: var(--bg-muted);
+  color: var(--text-primary);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.q-badge {
+  background-color: var(--accent-warm-bg);
+  color: #8c5e23;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.timers-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-pill {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-soft);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+
+.timer-pill strong {
+  font-size: 1.05rem;
+  color: var(--left-dark);
+}
+
+.q-timer-pill strong {
+  color: var(--right-dark);
+}
+
+.game-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-soft);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.btn-icon:hover {
+  background-color: var(--bg-muted);
+}
+
+/* ==================== 拔河競技場（Tug-of-War Arena） ==================== */
+.tug-arena {
+  position: relative;
+  background: linear-gradient(180deg, #faf7f0 0%, #f2ede1 100%);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+/* 贏的那方浮現的臺羅羅馬字歡呼橫幅 */
+.side-roman-banner {
+  position: absolute;
+  top: 10px;
+  z-index: 20;
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  animation: popBounce 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  pointer-events: none;
+}
+
+.left-banner {
+  left: 18px;
+  background-color: #f9e2dc;
+  border: 2px solid var(--left-primary);
+  color: var(--left-dark);
+}
+
+.right-banner {
+  right: 18px;
+  background-color: #dcefeb;
+  border: 2px solid var(--right-primary);
+  color: var(--right-dark);
+}
+
+.roman-big {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.roman-sub {
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+@keyframes popBounce {
+  0% {
+    transform: scale(0.75) translateY(-8px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.tug-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.team-score-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  min-width: 240px;
+}
+
+.left-score-box {
+  background-color: var(--left-bg);
+  border: 1.5px solid var(--left-border);
+}
+
+.right-score-box {
+  background-color: var(--right-bg);
+  border: 1.5px solid var(--right-border);
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.team-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.left-dot {
+  background-color: var(--left-primary);
+}
+
+.right-dot {
+  background-color: var(--right-primary);
+}
+
+.team-name-label {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.team-tailo-status {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.score-num {
+  font-size: 1.7rem;
+  font-weight: 800;
+  padding: 0 8px;
+}
+
+.left-score-box .score-num {
+  color: var(--left-dark);
+  margin-left: auto;
+}
+
+.right-score-box .score-num {
+  color: var(--right-dark);
+  margin-right: auto;
+}
+
+.rope-status-center {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+
+/* 拔河軌道 */
+.tug-track-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.win-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-width: 92px;
+}
+
+.left-win-zone {
+  background-color: var(--left-bg);
+  color: var(--left-dark);
+  border: 1px dashed var(--left-primary);
+}
+
+.right-win-zone {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+  border: 1px dashed var(--right-primary);
+}
+
+.tug-track {
+  position: relative;
+  flex: 1;
+  height: 68px;
+  background-color: #ebe4d4;
+  border-radius: 999px;
+  border: 2px solid #dcd2be;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tug-ticks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8%;
+  pointer-events: none;
+}
+
+.tug-tick {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #c2b7a3;
+}
+
+.tug-tick.center-tick {
+  width: 4px;
+  height: 44px;
+  border-radius: 2px;
+  background-color: var(--accent-warm);
+}
+
+.rope-assembly {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rope-line {
+  width: 140px;
+  height: 10px;
+  background: repeating-linear-gradient(
+    45deg,
+    #c49a6c,
+    #c49a6c 8px,
+    #ad8253 8px,
+    #ad8253 16px
+  );
+  border-radius: 6px;
+}
+
+.rope-knot {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #fff8eb;
+  border: 3px solid var(--left-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+}
+
+.pullers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.left-pullers {
+  background-color: var(--left-bg);
+  color: var(--left-dark);
+  border: 1px solid var(--left-border);
+}
+
+.right-pullers {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+  border: 1px solid var(--right-border);
+}
+
+.puller-avatar {
+  font-size: 1.3rem;
+}
+
+/* ==================== 題目提示卡 ==================== */
+.question-prompt-card {
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+.prompt-lesson-tag {
+  display: inline-block;
+  background-color: var(--bg-muted);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+
+.prompt-instruction {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.prompt-main-text {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 4px 0;
+  letter-spacing: 0.5px;
+}
+
+.prompt-sub-text {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.round-feedback-bar {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 1.02rem;
+}
+
+.round-feedback-bar.left-win {
+  background-color: var(--left-bg);
+  color: var(--left-dark);
+  border: 1.5px solid var(--left-primary);
+}
+
+.round-feedback-bar.right-win {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+  border: 1.5px solid var(--right-primary);
+}
+
+/* ==================== 左右雙隊搶答區 ==================== */
+.battle-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .battle-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+.player-panel {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.left-panel {
+  background-color: #faf1ee;
+  border: 2px solid var(--left-border);
+}
+
+.right-panel {
+  background-color: #eef5f4;
+  border: 2px solid var(--right-border);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(110, 102, 92, 0.2);
+}
+
+.panel-team-name {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.left-panel .panel-team-name {
+  color: var(--left-dark);
+}
+
+.right-panel .panel-team-name {
+  color: var(--right-dark);
+}
+
+.key-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background-color: rgba(255, 255, 255, 0.65);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+/* 贏的那方直接浮現的羅馬字勝利光環 */
+.panel-victory-overlay {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 800;
+  animation: popBounce 0.35s ease;
+}
+
+.left-panel .panel-victory-overlay {
+  background-color: #f5d8d0;
+  border: 2px solid var(--left-primary);
+  color: var(--left-dark);
+}
+
+.right-panel .panel-victory-overlay {
+  background-color: #d2e8e4;
+  border: 2px solid var(--right-primary);
+  color: var(--right-dark);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.option-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 98px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-soft);
+  color: var(--text-primary);
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(74, 65, 53, 0.04);
+  user-select: none;
+}
+
+.left-panel .option-btn:hover:not(:disabled) {
+  background-color: var(--left-hover);
+  border-color: var(--left-primary);
+  transform: translateY(-2px);
+}
+
+.right-panel .option-btn:hover:not(:disabled) {
+  background-color: var(--right-hover);
+  border-color: var(--right-primary);
+  transform: translateY(-2px);
+}
+
+.option-key-badge {
+  position: absolute;
+  top: 7px;
+  left: 9px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background-color: var(--bg-main);
+  padding: 1px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+}
+
+.option-type-pill {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+
+.pill-tailo {
+  background-color: var(--accent-warm-bg);
+  color: #8c5e23;
+}
+
+.pill-hanzi {
+  background-color: var(--right-bg);
+  color: var(--right-dark);
+}
+
+/* 選項內的羅馬字與漢字排版 */
+.opt-tailo {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--right-dark);
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+
+.left-panel .opt-tailo {
+  color: var(--left-dark);
+}
+
+.opt-hanzi {
+  font-size: 1.32rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.opt-sub-hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.option-btn.correct {
+  background-color: var(--success-bg) !important;
+  border-color: var(--success-soft) !important;
+  color: #2f5e3d !important;
+}
+
+.option-btn.wrong {
+  background-color: var(--danger-bg) !important;
+  border-color: var(--danger-soft) !important;
+  opacity: 0.75;
+}
+
+/* ==================== 結算與語詞庫彈窗 ==================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(58, 52, 45, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-card {
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  max-width: 920px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 40px rgba(45, 39, 32, 0.16);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.result-badge {
+  display: inline-block;
+  background-color: var(--accent-warm-bg);
+  color: #8c5e23;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.result-header h2 {
+  font-size: 1.65rem;
+  color: var(--text-primary);
+}
+
+.result-sides-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 720px) {
+  .result-sides-comparison {
+    grid-template-columns: 1fr;
+  }
+}
+
+.result-side-card {
+  border-radius: var(--radius-md);
+  padding: 18px;
+  border: 2px solid var(--border-soft);
+  background-color: var(--bg-main);
+  transition: all 0.25s ease;
+}
+
+.result-side-card.winner-card.left-side-card {
+  background-color: var(--left-bg);
+  border-color: var(--left-primary);
+  box-shadow: 0 8px 24px rgba(201, 122, 107, 0.18);
+  transform: scale(1.02);
+}
+
+.result-side-card.winner-card.right-side-card {
+  background-color: var(--right-bg);
+  border-color: var(--right-primary);
+  box-shadow: 0 8px 24px rgba(104, 148, 142, 0.18);
+  transform: scale(1.02);
+}
+
+.side-team-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.side-outcome-tag {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background-color: var(--bg-card);
+}
+
+/* 贏的那方顯眼展示臺羅羅馬字 */
+.side-roman-box {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1.5px dashed var(--border-soft);
+  text-align: center;
+}
+
+.winner-card .side-roman-box {
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--accent-warm);
+  background-color: #fffdf7;
+}
+
+.roman-victory-phrase {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--left-dark);
+  letter-spacing: 0.5px;
+}
+
+.right-side-card.winner-card .roman-victory-phrase {
+  color: var(--right-dark);
+}
+
+.hanzi-victory-phrase {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.side-score-line {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.words-won-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.words-won-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.won-word-chip {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.won-word-chip strong {
+  color: var(--right-dark);
+  margin-right: 4px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* 語詞庫管理彈窗 */
+.modal-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.modal-subtitle {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+.btn-close {
+  background: var(--bg-main);
+  border: 1px solid var(--border-soft);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.add-word-form {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.1fr 1fr auto;
+  gap: 8px;
+  margin-bottom: 16px;
+  background-color: var(--bg-main);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 780px) {
+  .add-word-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vocab-table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vocab-lesson-block {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.vocab-lesson-block h4 {
+  margin-bottom: 8px;
+  color: var(--right-dark);
+}
+
+.vocab-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 8px;
+}
+
+.vocab-card-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vocab-card-item .v-tailo {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--left-dark);
+}
+
+.vocab-card-item .v-hanzi {
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.vocab-card-item .v-meaning {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
