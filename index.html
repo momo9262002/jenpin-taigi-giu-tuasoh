@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>真平台語電子書・giú大索搶答大賽 (Giú-tuā-soh Pí-sài)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 頂部柔和導覽列 -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-badge">真平台語教材</span>
+      <h1>台語 giú大索 搶答大賽 <small>Giú-tuā-soh Tshiúnn-tap</small></h1>
+    </div>
+    <div class="header-actions">
+      <a href="https://jen-pin.com.tw/material.php" target="_blank" rel="noopener noreferrer" class="btn-outline">
+        📖 真平電子書官網
+      </a>
+      <button id="btnOpenCustomModal" class="btn-outline" type="button">
+        ✏️ 檢視／自訂語詞庫
+      </button>
+      <button id="btnBackToSetup" class="btn-secondary hidden" type="button">
+        ⚙️ 返回課程與設定
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- ==================== 畫面一：課程選擇與競賽設定 ==================== -->
+    <section id="setupScreen" class="setup-screen">
+      <div class="setup-grid">
+        <!-- 左欄：年級、冊別、練習範圍（全本書 / 分課） -->
+        <div class="card setup-card">
+          <div class="card-header">
+            <span class="step-pill">步驟 1</span>
+            <h2>選擇年級、冊別與練習範圍</h2>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">選擇年級（一～六年級）</label>
+            <div id="gradeSelector" class="pill-group">
+              <button type="button" class="pill-btn active" data-grade="1">一年級</button>
+              <button type="button" class="pill-btn" data-grade="2">二年級</button>
+              <button type="button" class="pill-btn" data-grade="3">三年級</button>
+              <button type="button" class="pill-btn" data-grade="4">四年級</button>
+              <button type="button" class="pill-btn" data-grade="5">五年級</button>
+              <button type="button" class="pill-btn" data-grade="6">六年級</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">選擇學期／冊別</label>
+            <div id="semesterSelector" class="pill-group">
+              <button type="button" class="pill-btn active" data-sem="1">上學期（單數冊）</button>
+              <button type="button" class="pill-btn" data-sem="2">下學期（雙數冊）</button>
+            </div>
+            <div id="bookTitleBanner" class="book-title-banner">
+              目前冊別：<strong>一上（第一冊）</strong>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">練習模式（全本書練習 ／ 分課練習）</label>
+            <div id="scopeModeSelector" class="scope-mode-tabs">
+              <button type="button" class="scope-tab active" data-scope="all">
+                📚 全本書綜合練習（整冊全部語詞）
+              </button>
+              <button type="button" class="scope-tab" data-scope="lesson">
+                📑 分課練習（可單選或複選課次）
+              </button>
+            </div>
+          </div>
+
+          <!-- 分課清單 -->
+          <div id="lessonListContainer" class="lesson-list-container">
+            <div class="lesson-list-header">
+              <span id="lessonListHint">目前已選：全冊 5 課（共 30 個語詞）</span>
+              <div id="lessonQuickBtns" class="lesson-quick-btns hidden">
+                <button type="button" id="btnSelectAllLessons" class="btn-text">全選</button>
+              </div>
+            </div>
+            <div id="lessonCheckboxes" class="lesson-checkboxes"></div>
+          </div>
+        </div>
+
+        <!-- 右欄：選項顯示模式、時間限制、拔河規則 -->
+        <div class="card setup-card">
+          <div class="card-header">
+            <span class="step-pill">步驟 2</span>
+            <h2>選項顯示（羅馬字＆漢字）與時間設定</h2>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">搶答選項顯示方式（皆含羅馬字與漢字）</label>
+            <div id="optionDisplaySelector" class="radio-card-group">
+              <label class="radio-card active">
+                <input type="radio" name="optionMode" value="both" checked />
+                <div class="radio-card-body">
+                  <div class="radio-title">🌟 選項同時顯示「羅馬字 ＋ 漢字」（推薦）</div>
+                  <div class="radio-desc">題目顯示華語意思／台語發音，每個搶答按鈕同時呈現【臺羅羅馬字】與【台語漢字】</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="optionMode" value="split_buttons" />
+                <div class="radio-card-body">
+                  <div class="radio-title">🔀 選項分別設有「羅馬字按鈕」與「漢字按鈕」</div>
+                  <div class="radio-desc">同一題的選項區分為「羅馬字區」與「漢字區」（或奇數題選羅馬字、偶數題選漢字），雙向練習！</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="optionMode" value="hanzi_to_tailo" />
+                <div class="radio-card-body">
+                  <div class="radio-title">🔤 看「漢字」搶答「羅馬字」（附漢字對照）</div>
+                  <div class="radio-desc">題目出「台語漢字」，學生從選項搶答對應的「臺羅羅馬字」</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="optionMode" value="tailo_to_hanzi" />
+                <div class="radio-card-body">
+                  <div class="radio-title">漢 看「羅馬字」搶答「漢字」（附羅馬字對照）</div>
+                  <div class="radio-desc">題目出「臺羅羅馬字」，學生從選項搶答對應的「台語漢字」</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row-two">
+            <div class="form-group">
+              <label class="form-label">⏱️ 競賽總時間限制</label>
+              <select id="totalTimeSelect" class="soft-select">
+                <option value="30">30 秒（快節奏閃電戰）</option>
+                <option value="60" selected>60 秒（標準一分鐘競賽）</option>
+                <option value="90">90 秒（一分半鐘）</option>
+                <option value="120">120 秒（兩分鐘耐力賽）</option>
+                <option value="180">180 秒（三分鐘完整賽）</option>
+                <option value="0">不限總時間（拉到底即分勝負）</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">⏳ 單題搶答限時</label>
+              <select id="questionTimeSelect" class="soft-select">
+                <option value="8">每題 8 秒</option>
+                <option value="12" selected>每題 12 秒（推薦）</option>
+                <option value="15">每題 15 秒</option>
+                <option value="20">每題 20 秒</option>
+                <option value="0">單題不限時</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-two">
+            <div class="form-group">
+              <label class="form-label">🪢 giú大索獲勝格數（拉過幾格直接贏）</label>
+              <select id="winStepsSelect" class="soft-select">
+                <option value="3">3 格（快速決勝）</option>
+                <option value="5" selected>5 格（標準 giú大索）</option>
+                <option value="7">7 格（持久拉鋸戰）</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">👥 對戰模式</label>
+              <select id="versusModeSelect" class="soft-select">
+                <option value="2p" selected>雙人／兩隊同螢幕搶答（觸控或鍵盤）</option>
+                <option value="ai">單人挑戰電腦隊伍（練習模式）</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="team-names-row">
+            <div class="team-input-box team-left-box">
+              <label>🌸 左方隊伍名稱</label>
+              <input type="text" id="teamLeftNameInput" value="春風隊 Chhun-hong" />
+            </div>
+            <div class="team-input-box team-right-box">
+              <label>🌿 右方隊伍名稱</label>
+              <input type="text" id="teamRightNameInput" value="暖陽隊 Luán-iông" />
+            </div>
+          </div>
+
+          <button type="button" id="btnStartGame" class="btn-start-game">
+            🪢 開始 giú大索 搶答比賽！（Giú-tuā-soh Khai-sí!）
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 畫面二：拔河搶答遊戲主舞台 ==================== -->
+    <section id="gameScreen" class="game-screen hidden">
+      <!-- 頂部比賽資訊與時間條 -->
+      <div class="game-status-bar">
+        <div class="status-info">
+          <span id="currentScopeBadge" class="scope-badge">一上（第一冊）・全本書練習</span>
+          <span id="questionCounterBadge" class="q-badge">第 1 題</span>
+        </div>
+
+        <div class="timers-wrap">
+          <div class="timer-pill" id="totalTimerPill">
+            <span>⏱️ 剩餘總時間：</span>
+            <strong id="totalTimeDisplay">01:00</strong>
+          </div>
+          <div class="timer-pill q-timer-pill" id="questionTimerPill">
+            <span>⏳ 本題倒數：</span>
+            <strong id="questionTimeDisplay">12s</strong>
+          </div>
+        </div>
+
+        <div class="game-controls">
+          <button type="button" id="btnSpeakPrompt" class="btn-icon" title="朗讀題目台語發音">
+            🔊 發音提示
+          </button>
+          <button type="button" id="btnNextSkip" class="btn-icon" title="換下一題">
+            ⏭️ 換題
+          </button>
+          <button type="button" id="btnEndEarly" class="btn-icon" title="提前結算成績">
+            🏁 結束結算
+          </button>
+        </div>
+      </div>
+
+      <!-- 拔河動態競技場（Tug-of-War Arena） -->
+      <div class="tug-arena" id="tugArena">
+        <!-- 左隊得勝／得分時的羅馬字橫幅（贏的那方顯示羅馬字！） -->
+        <div id="leftRomanBanner" class="side-roman-banner left-banner hidden">
+          <div class="roman-big" id="leftRomanMain">Iânn ah! Tsin gâu!</div>
+          <div class="roman-sub" id="leftRomanSub">贏矣！真𠢕！</div>
+        </div>
+
+        <!-- 右隊得勝／得分時的羅馬字橫幅（贏的那方顯示羅馬字！） -->
+        <div id="rightRomanBanner" class="side-roman-banner right-banner hidden">
+          <div class="roman-big" id="rightRomanMain">Iânn ah! Tsin gâu!</div>
+          <div class="roman-sub" id="rightRomanSub">贏矣！真𠢕！</div>
+        </div>
+
+        <div class="tug-header-row">
+          <div class="team-score-box left-score-box" id="leftScoreBox">
+            <span class="team-dot left-dot"></span>
+            <div>
+              <div class="team-name-label" id="leftTeamTitle">春風隊 Chhun-hong</div>
+              <div class="team-tailo-status" id="leftTeamTailoStatus">Phah-piànn! (拍拚！)</div>
+            </div>
+            <div class="score-num" id="leftScoreNum">0</div>
+          </div>
+
+          <div class="rope-status-center">
+            <span id="ropeStepStatus">目前平手 Pînn-tshiú (0)</span>
+          </div>
+
+          <div class="team-score-box right-score-box" id="rightScoreBox">
+            <div class="score-num" id="rightScoreNum">0</div>
+            <div>
+              <div class="team-name-label" id="rightTeamTitle">暖陽隊 Luán-iông</div>
+              <div class="team-tailo-status" id="rightTeamTailoStatus">Phah-piànn! (拍拚！)</div>
+            </div>
+            <span class="team-dot right-dot"></span>
+          </div>
+        </div>
+
+        <!-- 拔河軌道與繩索 -->
+        <div class="tug-track-wrapper">
+          <div class="win-zone left-win-zone">
+            <span>🚩 左方終點</span>
+            <small>Iânn!</small>
+          </div>
+
+          <div class="tug-track" id="tugTrack">
+            <!-- 刻度點由 JS 動態生成 -->
+            <div id="tugTicks" class="tug-ticks"></div>
+
+            <!-- 移動的拔河繩與兩隊隊員 -->
+            <div id="ropeAssembly" class="rope-assembly">
+              <div class="pullers left-pullers">
+                <span class="puller-avatar">🧒🏻</span>
+                <span class="puller-avatar">👧🏻</span>
+                <span class="pull-tag">出力 Tshut-la̍t!</span>
+              </div>
+              <div class="rope-line"></div>
+              <div class="rope-knot" id="ropeKnot">
+                <div class="red-ribbon">🎀</div>
+              </div>
+              <div class="rope-line"></div>
+              <div class="pullers right-pullers">
+                <span class="pull-tag">出力 Tshut-la̍t!</span>
+                <span class="puller-avatar">👦🏻</span>
+                <span class="puller-avatar">👧🏻</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="win-zone right-win-zone">
+            <span>右方終點 🚩</span>
+            <small>Iânn!</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- 中央題目區 -->
+      <div class="question-prompt-card" id="questionPromptCard">
+        <div class="prompt-lesson-tag" id="promptLessonTag">第一課：來去讀冊</div>
+        <div class="prompt-instruction" id="promptInstruction">請搶答對應的【台語羅馬字 ＆ 漢字】：</div>
+        <div class="prompt-main-text" id="promptMainText">讀書、上學</div>
+        <div class="prompt-sub-text" id="promptSubText">點擊下方左隊或右隊選項搶答！</div>
+        <!-- 單題搶答結果提示（顯示在贏的那方對應色系＋羅馬字） -->
+        <div id="roundFeedbackBar" class="round-feedback-bar hidden"></div>
+      </div>
+
+      <!-- 左右雙隊搶答區 -->
+      <div class="battle-panels">
+        <!-- 左隊搶答面板 -->
+        <div class="player-panel left-panel" id="leftPlayerPanel">
+          <div class="panel-header">
+            <span class="panel-team-name" id="leftPanelHeaderName">🌸 春風隊搶答區</span>
+            <span class="key-hint">觸控點擊 或 鍵盤 A / S / D / F</span>
+          </div>
+          <!-- 獲勝時在贏的那方直接浮現的大羅馬字徽章 -->
+          <div id="leftVictoryOverlay" class="panel-victory-overlay hidden"></div>
+          <div id="leftOptionsGrid" class="options-grid"></div>
+        </div>
+
+        <!-- 右隊搶答面板 -->
+        <div class="player-panel right-panel" id="rightPlayerPanel">
+          <div class="panel-header">
+            <span class="panel-team-name" id="rightPanelHeaderName">🌿 暖陽隊搶答區</span>
+            <span class="key-hint" id="rightKeyHint">觸控點擊 或 鍵盤 J / K / L / ;</span>
+          </div>
+          <!-- 獲勝時在贏的那方直接浮現的大羅馬字徽章 -->
+          <div id="rightVictoryOverlay" class="panel-victory-overlay hidden"></div>
+          <div id="rightOptionsGrid" class="options-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 結算弹窗：強調贏的那方顯示臺羅羅馬字 ==================== -->
+  <div id="resultModal" class="modal-backdrop hidden">
+    <div class="modal-card result-modal-card">
+      <div class="result-header">
+        <span class="result-badge" id="resultReasonBadge">比賽結束・勝負揭曉</span>
+        <h2 id="resultHeadline">比賽結果</h2>
+      </div>
+
+      <!-- 左右對照勝負展示區：贏的那一方大字顯示羅馬字！ -->
+      <div class="result-sides-comparison">
+        <!-- 左方結果卡 -->
+        <div id="resultLeftCard" class="result-side-card left-side-card">
+          <div class="side-team-name" id="resultLeftTeamName">春風隊</div>
+          <div class="side-outcome-tag" id="resultLeftOutcomeTag">獲勝 WINNER</div>
+          <!-- 贏的那方專屬大型羅馬字展示 -->
+          <div class="side-roman-box" id="resultLeftRomanBox">
+            <div class="roman-victory-phrase" id="resultLeftRomanPhrase">Iânn ah! Tsin gâu!</div>
+            <div class="hanzi-victory-phrase" id="resultLeftHanziPhrase">贏矣！真𠢕！（第一名 Tē-it-miâ!）</div>
+          </div>
+          <div class="side-score-line">
+            搶答得分：<strong id="resultLeftScore">0</strong> 題
+          </div>
+          <div class="side-words-won">
+            <div class="words-won-title">搶答成功語詞（羅馬字 ＆ 漢字）：</div>
+            <div id="resultLeftWordsList" class="words-won-list"></div>
+          </div>
+        </div>
+
+        <!-- 右方結果卡 -->
+        <div id="resultRightCard" class="result-side-card right-side-card">
+          <div class="side-team-name" id="resultRightTeamName">暖陽隊</div>
+          <div class="side-outcome-tag" id="resultRightOutcomeTag">再接再厲</div>
+          <!-- 贏的那方專屬大型羅馬字展示 -->
+          <div class="side-roman-box" id="resultRightRomanBox">
+            <div class="roman-victory-phrase" id="resultRightRomanPhrase">Su ah, koh-tsài ka-iû!</div>
+            <div class="hanzi-victory-phrase" id="resultRightHanziPhrase">輸矣，閣再加油！</div>
+          </div>
+          <div class="side-score-line">
+            搶答得分：<strong id="resultRightScore">0</strong> 題
+          </div>
+          <div class="side-words-won">
+            <div class="words-won-title">搶答成功語詞（羅馬字 ＆ 漢字）：</div>
+            <div id="resultRightWordsList" class="words-won-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="btnPlayAgain" class="btn-start-game">
+          🔄 再比一場（Koh giú tsi̍t tiûnn!）
+        </button>
+        <button type="button" id="btnResultToSetup" class="btn-outline">
+          ⚙️ 更換年級／課次與設定
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 語詞庫檢視與自訂新增弹窗 ==================== -->
+  <div id="customVocabModal" class="modal-backdrop hidden">
+    <div class="modal-card vocab-modal-card">
+      <div class="modal-header-row">
+        <div>
+          <h3>📖 當前冊別各課語詞一覽（漢字 ＆ 臺羅羅馬字）</h3>
+          <p class="modal-subtitle">可隨時新增或編輯本冊各課語詞，直接套用至 giú大索 搶答遊戲</p>
+        </div>
+        <button type="button" id="btnCloseVocabModal" class="btn-close">✕</button>
+      </div>
+
+      <div class="add-word-form">
+        <select id="customLessonSelect" class="soft-select"></select>
+        <input type="text" id="customHanziInput" placeholder="輸入台語漢字（例：食飯）" />
+        <input type="text" id="customTailoInput" placeholder="輸入臺羅拼音（例：tsia̍h-pn̄g）" />
+        <input type="text" id="customMeaningInput" placeholder="輸入華語意思（例：吃飯）" />
+        <button type="button" id="btnAddCustomWord" class="btn-secondary">＋ 新增語詞</button>
+      </div>
+
+      <div id="vocabTableContainer" class="vocab-table-container"></div>
+    </div>
+  </div>
+
+  <script src="vocab-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
